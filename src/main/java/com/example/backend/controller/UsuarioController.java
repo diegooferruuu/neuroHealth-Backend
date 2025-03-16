@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -24,8 +25,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public Usuario iniciarSesion(@RequestParam String email, @RequestParam String contrasena) {
-        return usuarioService.iniciarSesion(email, contrasena);
+    public Usuario iniciarSesion(@RequestBody Usuario usuario) {
+        return usuarioService.iniciarSesion(usuario.getEmail(), usuario.getContrasena());
     }
 }
 
