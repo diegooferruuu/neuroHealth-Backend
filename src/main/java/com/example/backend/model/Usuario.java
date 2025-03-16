@@ -24,6 +24,11 @@ public class Usuario {
         this.rol = rol;
     }
 
+    public Usuario(String email, String contrasena) {
+        this.email = email;
+        this.contrasena = contrasena;
+    }
+
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
     public String getNombre() { return nombre; }
