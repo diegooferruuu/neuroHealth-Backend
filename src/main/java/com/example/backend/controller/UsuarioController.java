@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.model.Usuario;
 import com.example.backend.service.UsuarioService;
+import com.example.backend.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping
     public List<Usuario> obtenerUsuarios() {
@@ -32,6 +35,15 @@ public class UsuarioController {
             String rol = usuarioData.getOrDefault("rol", "usuario");
 
             Usuario nuevoUsuario = usuarioService.registrarUsuario(nombre, apellido, email, contrasena, rol);
+
+            try {
+                emailService.sendEmail(nuevoUsuario.getEmail(),
+                        "Bienvenido a NeuroHealth",
+                        "<h1>Hola " + nuevoUsuario.getNombre() + "!</h1><p>Tu cuenta ha sido creada con éxito.</p>");
+            } catch (Exception e) {
+                // Si el correo falla, el usuario aún se registra
+                System.err.println("Error al enviar el correo: " + e.getMessage());
+            }
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
