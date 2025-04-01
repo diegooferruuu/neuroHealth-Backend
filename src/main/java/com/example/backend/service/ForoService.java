@@ -39,6 +39,7 @@ public class ForoService {
                     response.put("titulo", p.getTitulo());
                     response.put("contenido", p.getContenido());
                     response.put("fechaPublicacion", p.getFechaPublicacion());
+                    response.put("tema", p.getTema());
 
                     // Manejo profesional de nulos
                     String nombre = p.getUsuario().getNombre() != null ? p.getUsuario().getNombre() : "";
