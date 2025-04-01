@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -24,7 +25,6 @@ public class ForoController {
     @Autowired
     private UsuarioService usuarioService;
 
-    // Endpoints para Publicaciones
     @PostMapping("/publicaciones")
     public ResponseEntity<?> crearPublicacion(
             @RequestParam String usuarioId,
@@ -39,7 +39,15 @@ public class ForoController {
 
         try {
             Publicacion publicacion = foroService.crearPublicacion(usuario, titulo, contenido, tema);
-            return ResponseEntity.ok(publicacion);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("id", publicacion.getId());
+            response.put("titulo", publicacion.getTitulo());
+            response.put("contenido", publicacion.getContenido());
+            response.put("fechaPublicacion", publicacion.getFechaPublicacion());
+            response.put("usuario", usuario.getNombre()); // Solo el nombre
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al crear publicación: " + e.getMessage());
