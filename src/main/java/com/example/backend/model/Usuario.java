@@ -10,6 +10,7 @@ public class Usuario {
     @Id
     private String id;
     private String nombre;
+    private String apellido;
     private String email;
     private String contrasena;
     private String fechaRegistro;
@@ -18,8 +19,9 @@ public class Usuario {
     // Constructor, getters y setters
     public Usuario() {}
 
-    public Usuario(String nombre, String email, String contrasena, String fechaRegistro, String rol) {
+    public Usuario(String nombre,String apellido, String email, String contrasena, String fechaRegistro, String rol) {
         this.nombre = nombre;
+        this.apellido = apellido;
         this.email = email;
         this.contrasena = contrasena;
         this.fechaRegistro = fechaRegistro;
@@ -43,4 +45,6 @@ public class Usuario {
     public void setFechaRegistro(String fechaRegistro) { this.fechaRegistro = fechaRegistro; }
     public String getRol() { return rol; }
     public void setRol(String rol) { this.rol = rol; }
+    public String getApellido() { return apellido; }
+    public void setApellido(String apellido) { this.apellido = apellido; }
 }

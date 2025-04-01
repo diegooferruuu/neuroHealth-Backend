@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -46,10 +47,9 @@ public class ForoController {
     }
 
     @GetMapping("/publicaciones")
-    public ResponseEntity<List<Publicacion>> obtenerTodasPublicaciones() {
+    public ResponseEntity<List<Map<String, Object>>> obtenerTodasPublicaciones() {
         return ResponseEntity.ok(foroService.obtenerTodasPublicaciones());
     }
-
 
 }
 

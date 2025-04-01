@@ -8,6 +8,9 @@ import com.example.backend.repository.PublicacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.stream.Collectors;
 
 @Service
 public class ForoService {
@@ -27,10 +30,25 @@ public class ForoService {
         return publicacionRepository.save(publicacion);
     }
 
-    public List<Publicacion> obtenerTodasPublicaciones() {
-        return publicacionRepository.findByOrderByFechaPublicacionDesc();
-    }
+    public List<Map<String, Object>> obtenerTodasPublicaciones() {
+        return publicacionRepository.findByOrderByFechaPublicacionDesc()
+                .stream()
+                .map(p -> {
+                    Map<String, Object> response = new HashMap<>();
+                    response.put("id", p.getId());
+                    response.put("titulo", p.getTitulo());
+                    response.put("contenido", p.getContenido());
+                    response.put("fechaPublicacion", p.getFechaPublicacion());
 
+                    // Manejo profesional de nulos
+                    String nombre = p.getUsuario().getNombre() != null ? p.getUsuario().getNombre() : "";
+                    String apellido = p.getUsuario().getApellido() != null ? " " + p.getUsuario().getApellido() : "";
+                    response.put("usuario", nombre + apellido);
+
+                    return response;
+                })
+                .collect(Collectors.toList());
+    }
     public Publicacion obtenerPublicacionPorId(String id) {
         return publicacionRepository.findById(id).orElse(null);
     }
