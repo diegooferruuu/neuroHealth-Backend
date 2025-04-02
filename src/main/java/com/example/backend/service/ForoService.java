@@ -25,7 +25,8 @@ public class ForoService {
     private UsuarioService usuarioService;
 
 
-    public Publicacion crearPublicacion(Usuario usuario, String titulo, String contenido, String tema) {
+    public Publicacion crearPublicacion(String usuarioId, String titulo, String contenido, String tema) {
+        Usuario usuario = usuarioService.obtenerUsuarioPorId(usuarioId);
         Publicacion publicacion = new Publicacion(usuario, titulo, contenido, tema);
         return publicacionRepository.save(publicacion);
     }

@@ -26,11 +26,11 @@ public class ForoController {
     private UsuarioService usuarioService;
 
     @PostMapping("/publicaciones")
-    public ResponseEntity<?> crearPublicacion(
-            @RequestParam String usuarioId,
-            @RequestParam String titulo,
-            @RequestParam String contenido,
-            @RequestParam String tema) {
+    public ResponseEntity<?> crearPublicacion(@RequestBody Map<String, String> request) {
+        String usuarioId = request.get("usuarioId");
+        String titulo = request.get("titulo");
+        String contenido = request.get("contenido");
+        String tema = request.get("tema");
 
         Usuario usuario = usuarioService.obtenerUsuarioPorId(usuarioId);
         if (usuario == null) {
@@ -38,14 +38,14 @@ public class ForoController {
         }
 
         try {
-            Publicacion publicacion = foroService.crearPublicacion(usuario, titulo, contenido, tema);
+            Publicacion publicacion = foroService.crearPublicacion(usuarioId, titulo, contenido, tema);
 
             Map<String, Object> response = new HashMap<>();
             response.put("id", publicacion.getId());
             response.put("titulo", publicacion.getTitulo());
             response.put("contenido", publicacion.getContenido());
             response.put("fechaPublicacion", publicacion.getFechaPublicacion());
-            response.put("usuario", usuario.getNombre()); // Solo el nombre
+            response.put("usuario", usuario.getNombre());
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
