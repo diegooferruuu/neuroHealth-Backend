@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.time.Instant;
+import java.util.Optional;
 
 
 @Service
@@ -41,4 +42,10 @@ public class UsuarioService {
         }
         return null;
     }
+
+    public Usuario obtenerUsuarioPorId(String id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        return usuario.orElse(null);
+    }
+
 }
