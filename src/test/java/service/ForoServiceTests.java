@@ -32,7 +32,6 @@ public class ForoServiceTests {
 
     @Test
     public void testCrearPublicacion() {
-        // Datos de prueba
         String usuarioId = "123";
         String titulo = "Título de prueba";
         String contenido = "Contenido de prueba";
@@ -44,17 +43,15 @@ public class ForoServiceTests {
         usuarioSimulado.setNombre("Usuario Test");
         usuarioSimulado.setEmail("test@example.com");
 
-        // Crear publicación simulada como resultado
+        // Publicación simulada
         Publicacion publicacionSimulada = new Publicacion(usuarioSimulado, titulo, contenido, tema);
 
-        // Configurar comportamiento de los mocks
         when(usuarioService.obtenerUsuarioPorId(usuarioId)).thenReturn(usuarioSimulado);
         when(publicacionRepository.save(any(Publicacion.class))).thenReturn(publicacionSimulada);
 
-        // Ejecutar el método a probar
         Publicacion resultado = foroService.crearPublicacion(usuarioId, titulo, contenido, tema);
 
-        // Verificaciones
+        // Verificar
         assertNotNull(resultado);
         assertEquals(titulo, resultado.getTitulo());
         assertEquals(contenido, resultado.getContenido());

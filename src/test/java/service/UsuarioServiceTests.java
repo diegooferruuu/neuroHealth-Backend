@@ -27,7 +27,6 @@ public class UsuarioServiceTests {
 
     @Test
     public void testIniciarSesion_UsuarioYContrasenaCorrecta() {
-        // Datos simulados
         String email = "prueba@example.com";
         String contrasena = "1234";
 
@@ -35,27 +34,24 @@ public class UsuarioServiceTests {
         usuarioSimulado.setEmail(email);
         usuarioSimulado.setContrasena(contrasena);
 
-        // Simula el comportamiento del repositorio
         when(usuarioRepository.findByEmail(email)).thenReturn(usuarioSimulado);
 
-        // Ejecutar
+        // Ejecuta
         Usuario resultado = usuarioService.iniciarSesion(email, contrasena);
 
-        // Verificar
+        // Verifica
         assertNotNull(resultado);
         assertEquals(email, resultado.getEmail());
     }
 
     @Test
     public void testIniciarSesion_UsuarioNoExisteOContrasenaIncorrecta() {
-        // Caso 1: Usuario no existe
         String emailInvalido = "noexiste@correo.com";
         when(usuarioRepository.findByEmail(emailInvalido)).thenReturn(null);
 
         Usuario resultado1 = usuarioService.iniciarSesion(emailInvalido, "123456");
         assertNull(resultado1);
 
-        // Caso 2: Usuario existe pero contraseña incorrecta
         Usuario usuarioSimulado = new Usuario();
         usuarioSimulado.setEmail("ejemplo@correo.com");
         usuarioSimulado.setContrasena("correcta");
