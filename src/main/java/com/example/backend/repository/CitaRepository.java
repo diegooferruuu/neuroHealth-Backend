@@ -7,3 +7,4 @@ import java.util.List;
 public interface CitaRepository extends MongoRepository<Cita, String> {
     List<Cita> findByEspecialistaId(String especialistaId);
 }
+
