@@ -33,4 +33,20 @@ public class EspecialistaService {
 
         return horarios;
     }
+
+    public boolean addOccupiedHour(String id, String hour) {
+        Optional<Especialista> especialistaOpt = especialistaRepository.findById(id);
+        if (especialistaOpt.isPresent()) {
+            Especialista especialista = especialistaOpt.get();
+            List<String> occupied = especialista.getOccupiedHours();
+            if (!occupied.contains(hour)) {
+                occupied.add(hour);
+                especialista.setOccupiedHours(occupied);
+                especialistaRepository.save(especialista);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

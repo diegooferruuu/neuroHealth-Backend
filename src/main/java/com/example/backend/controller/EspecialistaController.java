@@ -28,4 +28,23 @@ public class EspecialistaController {
     public ResponseEntity<Map<String, List<String>>> getHorariosByEspecialistaId(@PathVariable String id) {
         return ResponseEntity.ok(especialistaService.getHorariosByEspecialistaId(id));
     }
+
+    @PutMapping("/{id}/ocupar-hora")
+    public ResponseEntity<Map> ocuparHora(
+            @PathVariable String id,
+            @RequestBody Map<String, String> body
+    ) {
+        String hour = body.get("hour");
+        boolean success = especialistaService.addOccupiedHour(id, hour);
+        if (success) {
+            System.out.println("Hora ocupada correctamente");
+
+            return ResponseEntity.ok(Map.of("message", "Hora ocupada con éxito"));
+
+        } else {
+            System.out.println("Hora no ocupada correctamente");
+            return ResponseEntity.badRequest().body(Map.of("message", "No se pudo ocupar la hora"));
+        }
+    }
+
 }
